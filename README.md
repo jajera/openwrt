@@ -21,4 +21,5 @@ ssh $USER@$ROUTER_IP $(curl -s $BASE_URL/get_timezone.sh)
 
 # set timezone (Manila)
 NEW_TIMEZONE='PST-8'
+NEW_ZONENAME='Asia/Manila'
 ssh $USER@$ROUTER_IP "TIMEZONE=$NEW_TIMEZONE;$(curl -s $BASE_URL/set_timezone.sh)"
