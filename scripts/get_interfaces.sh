@@ -1,1 +1,1 @@
-ubus list network.interface.*
+ubus list network.interface.* | sed s/"network.interface."//
