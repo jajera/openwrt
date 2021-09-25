@@ -11,3 +11,7 @@ ssh $USER@$ROUTER_IP $(curl -s $BASE_URL/get_uptime.sh)
 
 # get hostname
 ssh $USER@$ROUTER_IP $(curl -s $BASE_URL/get_hostname.sh)
+
+# set hostname
+NEW_HOSTNAME=OPENWRT00
+ssh $USER@$ROUTER_IP "HOSTNAME=$NEW_HOSTNAME;$(curl -s $BASE_URL/set_hostname.sh)"
