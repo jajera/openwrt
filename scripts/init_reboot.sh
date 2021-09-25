@@ -1,4 +1,4 @@
 #!/bin/sh
-# initiates router reboot
+#initiates router reboot
 
 reboot
