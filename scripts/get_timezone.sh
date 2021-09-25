@@ -1,1 +1,1 @@
-uci get system.@system[0].timezone;
+echo $(date +%Z)
