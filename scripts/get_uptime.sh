@@ -1,1 +1,1 @@
-echo $(cat /proc/uptime | awk '{print $1}')
+echo $(cat /proc/uptime | awk '{print $1}');
