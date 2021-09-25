@@ -1,0 +1,1 @@
+uci get system.@system[0].hostname
