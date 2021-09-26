@@ -10,4 +10,4 @@ uci set wireless."$WIFI_NETWORK".isolate=$WIFI_ISOLATE;
 uci set wireless."$WIFI_NETWORK".hidden=$WIFI_HIDE;
 uci commit wireless;
 wifi reload;
-uci show wireless.$WIFI_NETWORK 2> /dev/null;
+uci -q show wireless.$WIFI_NETWORK;
