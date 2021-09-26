@@ -44,7 +44,7 @@ ssh $USER@$ROUTER_IP "INT_LABEL=$NEW_INT_LABEL;INT_CLASS=$NEW_INT_CLASS;INT_TYPE
 # new wireless
 NEW_WIFI_DEV='radio0'
 NEW_WIFI_MODE='ap'
-NEW_WIFI_NETWORK='guestwifi'
+NEW_WIFI_NETWORK='guest'
 NEW_WIFI_SSID='guest'
 NEW_WIFI_ENCRYPT='psk-mixed'
 NEW_WIFI_KEY='1234567890'
@@ -52,3 +52,26 @@ NEW_WIFI_CHANNEL='6'
 NEW_WIFI_ISOLATE='1'
 NEW_WIFI_HIDE='1'
 ssh $USER@$ROUTER_IP "WIFI_DEV=$NEW_WIFI_DEV;WIFI_MODE=$NEW_WIFI_MODE;WIFI_NETWORK=$NEW_WIFI_NETWORK;WIFI_SSID=$NEW_WIFI_SSID;WIFI_ENCRYPT=$NEW_WIFI_ENCRYPT;WIFI_KEY=$NEW_WIFI_KEY;WIFI_CHANNEL=$NEW_WIFI_CHANNEL;WIFI_ISOLATE=$NEW_WIFI_ISOLATE;WIFI_HIDE=$NEW_WIFI_HIDE;$(curl -s $BASE_URL/new_wireless.sh)"
+
+# configure dhcp
+
+NEW_DHCP_NAME='dhcp'
+NEW_DHCP_INT='guest'
+NEW_DHCP_START='100'
+NEW_DHCP_LIMIT='150'
+NEW_DHCP_LEASE='1h'
+
+uci set dhcp.guest="dhcp"
+uci set dhcp.guest.interface="guest"
+uci set dhcp.guest.start="100"
+uci set dhcp.guest.limit="150"
+uci set dhcp.guest.leasetime="1h"
+uci commit dhcp
+/etc/init.d/dnsmasq restart
+
+
+
+# /etc/config/network
+uci set network.guest.type='bridge'
+# /etc/config/wireless
+uci set wireless.guestwifi.network='guestwifi guest'
