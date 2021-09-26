@@ -1,0 +1,1 @@
+uci show network.$INTERFACE 2> /dev/null;
