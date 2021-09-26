@@ -54,20 +54,12 @@ NEW_WIFI_HIDE='1'
 ssh $USER@$ROUTER_IP "WIFI_DEV=$NEW_WIFI_DEV;WIFI_MODE=$NEW_WIFI_MODE;WIFI_NETWORK=$NEW_WIFI_NETWORK;WIFI_SSID=$NEW_WIFI_SSID;WIFI_ENCRYPT=$NEW_WIFI_ENCRYPT;WIFI_KEY=$NEW_WIFI_KEY;WIFI_CHANNEL=$NEW_WIFI_CHANNEL;WIFI_ISOLATE=$NEW_WIFI_ISOLATE;WIFI_HIDE=$NEW_WIFI_HIDE;$(curl -s $BASE_URL/new_wireless.sh)"
 
 # configure dhcp
-
-NEW_DHCP_NAME='dhcp'
 NEW_DHCP_INT='guest'
 NEW_DHCP_START='100'
 NEW_DHCP_LIMIT='150'
 NEW_DHCP_LEASE='1h'
+ssh $USER@$ROUTER_IP "DHCP_INT=$NEW_DHCP_INT;DHCP_START=$NEW_DHCP_START;DHCP_LIMIT=$NEW_DHCP_LIMIT;DHCP_LEASE=$NEW_DHCP_LEASE;$(curl -s $BASE_URL/set_dhcp.sh)"
 
-uci set dhcp.guest="dhcp"
-uci set dhcp.guest.interface="guest"
-uci set dhcp.guest.start="100"
-uci set dhcp.guest.limit="150"
-uci set dhcp.guest.leasetime="1h"
-uci commit dhcp
-/etc/init.d/dnsmasq restart
 
 
 
