@@ -60,7 +60,38 @@ NEW_DHCP_LIMIT='150'
 NEW_DHCP_LEASE='1h'
 ssh $USER@$ROUTER_IP "DHCP_INT=$NEW_DHCP_INT;DHCP_START=$NEW_DHCP_START;DHCP_LIMIT=$NEW_DHCP_LIMIT;DHCP_LEASE=$NEW_DHCP_LEASE;$(curl -s $BASE_URL/set_dhcp.sh)"
 
+# new firewall zone
+NEW_FW_ZONE_NAME='guest'
+NEW_FW_ZONE_NETWORK='guest'
+NEW_FW_ZONE_INPUT='REJECT'
+NEW_FW_ZONE_OUTPUT='ACCEPT'
+NEW_FW_ZONE_FORWARD='REJECT'
+ssh $USER@$ROUTER_IP "FW_ZONE_NAME=$NEW_FW_ZONE_NAME;FW_ZONE_NETWORK=$FW_ZONE_NETWORK;FW_ZONE_INPUT=$FW_ZONE_INPUT;FW_ZONE_OUTPUT=$FW_ZONE_OUTPUT;FW_ZONE_FORWARD=$NEW_FW_ZONE_FORWARD;$(curl -s $BASE_URL/new_fw_zone.sh)"
 
+
+
+
+
+uci set firewall.guest_wan="forwarding"
+uci set firewall.guest_wan.src="guest"
+uci set firewall.guest_wan.dest="wan"
+
+uci set firewall.guest_dns="rule"
+uci set firewall.guest_dns.name="Allow-DNS-Guest"
+uci set firewall.guest_dns.src="guest"
+uci set firewall.guest_dns.dest_port="53"
+uci set firewall.guest_dns.proto="tcp udp"
+uci set firewall.guest_dns.target="ACCEPT"
+
+uci set firewall.guest_dhcp="rule"
+uci set firewall.guest_dhcp.name="Allow-DHCP-Guest"
+uci set firewall.guest_dhcp.src="guest"
+uci set firewall.guest_dhcp.dest_port="67"
+uci set firewall.guest_dhcp.proto="udp"
+uci set firewall.guest_dhcp.family="ipv4"
+uci set firewall.guest_dhcp.target="ACCEPT"
+uci commit firewall
+/etc/init.d/firewall restart
 
 
 # /etc/config/network
