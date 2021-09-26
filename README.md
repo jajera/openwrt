@@ -26,3 +26,7 @@ ssh $USER@$ROUTER_IP "TIMEZONE=$NEW_TIMEZONE;ZONENAME=$NEW_ZONENAME;$(curl -s $B
 
 # get interfaces
 ssh $USER@$ROUTER_IP $(curl -s $BASE_URL/get_interfaces.sh)
+
+# get interface details
+QRY_INTERFACE='lan'
+ssh $USER@$ROUTER_IP "INTERFACE=$QRY_INTERFACE;$(curl -s $BASE_URL/get_interface_details.sh)"
