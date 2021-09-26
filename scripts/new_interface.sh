@@ -8,3 +8,4 @@ uci set network."$INT_LABEL".ipaddr=$INT_IPADDR;
 uci set network."$INT_LABEL".netmask=$INT_NETMASK;
 uci commit network;
 /etc/init.d/network restart;
+uci show network.$INT_LABEL 2> /dev/null;
