@@ -1,0 +1,12 @@
+uci set wireless."$NEW_WIFI_SSID"='wifi-iface';
+uci set wireless."$NEW_WIFI_SSID".device=$NEW_WIFI_DEV;
+uci set wireless."$NEW_WIFI_SSID".mode=$NEW_WIFI_MODE;
+uci set wireless."$NEW_WIFI_SSID".network=$NEW_WIFI_NETWORK;
+uci set wireless."$NEW_WIFI_SSID".ssid=$NEW_WIFI_SSID;
+uci set wireless."$NEW_WIFI_SSID".encryption=$NEW_WIFI_ENCRYPT;
+uci set wireless."$NEW_WIFI_SSID".key=$NEW_WIFI_KEY;
+uci set wireless."$NEW_WIFI_SSID".channel=$NEW_WIFI_CHANNEL;
+uci set wireless."$NEW_WIFI_SSID".isolate=$NEW_WIFI_ISOLATE;
+uci set wireless."$NEW_WIFI_SSID".hidden=$NEW_WIFI_HIDE;
+uci commit wireless;
+wifi reload;
