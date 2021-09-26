@@ -6,4 +6,4 @@ uci set firewall."$FW_RULE_ID".proto=$FW_RULE_DEST_PROTO;
 uci set firewall."$FW_RULE_ID".target=$FW_RULE_DEST_TARGET;
 uci commit firewall;
 /etc/init.d/firewall restart;
-uci -s show firewall."$FW_FORWARDING_NAME";
+uci -s show firewall."$FW_RULE_ID";
