@@ -33,8 +33,6 @@ ssh $USER@$ROUTER_IP $(curl -s $BASE_URL/get_interfaces.sh)
 QRY_INT='lan'
 ssh $USER@$ROUTER_IP "INTERFACE=\"$QRY_INT\";$(curl -s $BASE_URL/get_interface_details.sh)"
 
-<!-- NEW_INT_LABEL='guest' NEW_INT_CLASS='device' NEW_INT_TYPE='bridge' NEW_INT_NAME='br-guest' NEW_INT_PROTO='static' NEW_INT_IPADDR='192.168.3.1' NEW_INT_NETMASK='255.255.255.0' ssh $USER@$ROUTER_IP "INT_LABEL="$NEW_INT_LABEL";INT_CLASS="$NEW_INT_CLASS";INT_TYPE="$NEW_INT_TYPE";INT_NAME="$NEW_INT_NAME";INT_PROTO="$NEW_INT_PROTO";INT_IPADDR="$NEW_INT_IPADDR";INT_NETMASK=$NEW_INT_NETMASK;$(curl -s $BASE_URL/new_interface.sh)" -->
-
 # new device
 NEW_DEV_CLASS='device'
 NEW_DEV_TYPE='bridge'
@@ -109,3 +107,11 @@ ssh $USER@$ROUTER_IP "INT_NAME=\"$DEL_INT_NAME\";$(curl -s $BASE_URL/delete_inte
 # delete device
 DEL_DEV_NAME='guest'
 ssh $USER@$ROUTER_IP "DEV_NAME=\"$DEL_DEV_NAME\";$(curl -s $BASE_URL/delete_device.sh)"
+
+# delete wireless
+DEL_WIFI_NAME='guest'
+ssh $USER@$ROUTER_IP "WIFI_NAME=\"$DEL_WIFI_NAME\";$(curl -s $BASE_URL/delete_wireless.sh)"
+
+# delete dhcp
+DEL_DHCP_NAME='guest'
+ssh $USER@$ROUTER_IP "DHCP_NAME=\"$DEL_DHCP_NAME\";$(curl -s $BASE_URL/delete_dhcp.sh)"
