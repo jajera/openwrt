@@ -1,4 +1,4 @@
 uci -q delete dhcp."$DHCP_NAME"
-uci commit wireless;
-wifi reload;
-uci -q show wireless.$DHCP_NAME;
+uci commit dhcp;
+/etc/init.d/dnsmasq restart;
+uci -q show dhcp.$DHCP_NAME;
