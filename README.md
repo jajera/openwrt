@@ -33,18 +33,22 @@ ssh $USER@$ROUTER_IP $(curl -s $BASE_URL/get_interfaces.sh)
 QRY_INT='lan'
 ssh $USER@$ROUTER_IP "INTERFACE=\"$QRY_INT\";$(curl -s $BASE_URL/get_interface_details.sh)"
 
-uci set network."$INT_LABEL"_int=$INT_CLASS;
-uci set network."$INT_LABEL"_int.type=$INT_TYPE;
-uci set network."$INT_LABEL"_int.name=$INT_NAME;
-uci commit network;
-/etc/init.d/network restart;
-uci -q show network.$INT_LABEL;
+<!-- NEW_INT_LABEL='guest' NEW_INT_CLASS='device' NEW_INT_TYPE='bridge' NEW_INT_NAME='br-guest' NEW_INT_PROTO='static' NEW_INT_IPADDR='192.168.3.1' NEW_INT_NETMASK='255.255.255.0' ssh $USER@$ROUTER_IP "INT_LABEL="$NEW_INT_LABEL";INT_CLASS="$NEW_INT_CLASS";INT_TYPE="$NEW_INT_TYPE";INT_NAME="$NEW_INT_NAME";INT_PROTO="$NEW_INT_PROTO";INT_IPADDR="$NEW_INT_IPADDR";INT_NETMASK=$NEW_INT_NETMASK;$(curl -s $BASE_URL/new_interface.sh)" -->
+
+# new device
+NEW_DEV_CLASS='device'
+NEW_DEV_TYPE='bridge'
+NEW_DEV_NAME='br-guest'
+NEW_DEV_LABEL='guest'
+ssh $USER@$ROUTER_IP "DEV_LABEL=\"$NEW_DEV_LABEL\";DEV_CLASS=\"$NEW_DEV_CLASS\";DEV_TYPE=\"$NEW_DEV_TYPE\";DEV_NAME=\"$NEW_DEV_NAME\";$(curl -s $BASE_URL/new_device.sh)"
 
 # new interface
-NEW_INT_CLASS='device'
-NEW_INT_TYPE='bridge'
-NEW_INT_NAME='br-guest'
-ssh $USER@$ROUTER_IP "INT_CLASS=\"$NEW_INT_CLASS\";INT_TYPE=\"$NEW_INT_TYPE\";INT_NAME=\"$NEW_INT_NAME\";$(curl -s $BASE_URL/new_interface.sh)"
+NEW_TARGET_DEV_NAME='br-guest'
+NEW_INT_NAME='guest_int'
+NEW_INT_PROTO='static'
+NEW_INT_IPADDR='192.168.3.1'
+NEW_INT_NETMASK='255.255.255.0'
+ssh $USER@$ROUTER_IP "INT_NAME=\"$NEW_INT_NAME\";INT_PROTO=\"$NEW_INT_PROTO\";DEV_NAME=\"$NEW_TARGET_DEV_NAME\";INT_IPADDR=\"$NEW_INT_IPADDR\";INT_NETMASK=\"$NEW_INT_NETMASK\";$(curl -s $BASE_URL/new_interface.sh)"
 
 # new wireless
 NEW_WIFI_DEV='radio0'
@@ -99,5 +103,9 @@ NEW_FW_RULE_DEST_FAMILY='ipv4'
 ssh $USER@$ROUTER_IP "FW_RULE_ID=\"$NEW_FW_RULE_ID\";FW_RULE_NAME=\"$NEW_FW_RULE_NAME\";FW_RULE_SRC=\"$NEW_FW_RULE_SRC\";FW_RULE_DEST_PORT=\"$NEW_FW_RULE_DEST_PORT\";FW_RULE_DEST_PROTO=\"$NEW_FW_RULE_DEST_PROTO\";FW_RULE_DEST_TARGET=\"$NEW_FW_RULE_DEST_TARGET\";FW_RULE_DEST_FAMILY=\"$NEW_FW_RULE_DEST_FAMILY\";$(curl -s $BASE_URL/new_fw_rule.sh)"
 
 # delete interface
-DEL_INT_LABEL='guest_int'
-ssh $USER@$ROUTER_IP "INT_LABEL=\"$DEL_INT_LABEL\";$(curl -s $BASE_URL/delete_interface.sh)"
+DEL_INT_NAME='guest_int'
+ssh $USER@$ROUTER_IP "INT_NAME=\"$DEL_INT_NAME\";$(curl -s $BASE_URL/delete_interface.sh)"
+
+# delete device
+DEL_DEV_NAME='guest'
+ssh $USER@$ROUTER_IP "DEV_NAME=\"$DEL_DEV_NAME\";$(curl -s $BASE_URL/delete_device.sh)"
