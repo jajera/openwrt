@@ -1,4 +1,4 @@
-uci -q delete network."$INT_NAME"
+uci -q delete network."$DEV_NAME"
 uci commit network;
 /etc/init.d/network restart;
-uci -q show network.$INT_NAME;
+uci -q show network.$DEV_NAME;
